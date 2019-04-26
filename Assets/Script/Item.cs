@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Item : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    //トリガーとの接触時に呼ばれるコールバック 
+    void OnTriggerEnter(Collider hit)
+    {
+        //playerタグと接触したか
+        if (hit.CompareTag("Player"))
+        {
+            //このコンポーネントを持つGameObjectを破棄する
+            Destroy(gameObject);
+        }
+    }
 }
