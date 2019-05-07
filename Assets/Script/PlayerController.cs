@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
     Rigidbody rgbody;
 
     //speed係数
     public float speed = 10;
+    
 
 
     private void Start()
@@ -15,6 +17,23 @@ public class PlayerController : MonoBehaviour {
         rgbody = GetComponent<Rigidbody>();
 
     }
+    void Update()
+    {
+        //座標取得
+        Transform player_transform = this.transform;
+        Vector3 player_position = player_transform.position;
+
+        //playerのyが0より低いなら＝フィールド外に落下したらゲームリセット（なんかスマートな方法があったかも）
+        if (player_position.y<0)
+        {
+            //現在のシーン番号を取得
+            int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+            //現在のシーンを再読込する
+            SceneManager.LoadScene(sceneIndex);
+
+        }
+    }   
 
     private void FixedUpdate()
     {
@@ -22,8 +41,11 @@ public class PlayerController : MonoBehaviour {
         float moveH = Input.GetAxis("Horizontal");
         float moveV = Input.GetAxis("Vertical");
 
-        //rigidbodyのx・yに力を加える
-        rgbody.AddForce(moveH*speed, 0, moveV*speed);
-        
+        //spaceキーでジャンプ
+        float jump = Input.GetAxis("Jump");
+
+        //rigidbodyのx・y・zに力を加える
+        rgbody.AddForce(moveH*speed, jump*50, moveV*speed);
+
     }
 }

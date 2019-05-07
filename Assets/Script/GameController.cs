@@ -24,5 +24,7 @@ public class GameController : MonoBehaviour {
             //オブジェクトをアクティブにする
             winnerLabelObject.SetActive(true);
         }
+
+
 	}
 }
